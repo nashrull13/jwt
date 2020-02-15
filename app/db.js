@@ -20,7 +20,6 @@ db.user = require("../model/user.js")(sequelize, Sequelize);
 db.role = require("../model/role.js")(sequelize, Sequelize);
 db.book = require("../model/book.js")(sequelize, Sequelize);
 
-//db.role = require("../model/books.js")(sequelize, Sequelize);
 db.user.belongsToMany(db.book, {
   through: "book_user",
   foreignKey: "userId",

@@ -19,7 +19,7 @@ const Role = db.role;
 // require("./router/router.js")(app);
 
 // Create a Server
-var server = app.listen(8082, "127.0.0.1", function() {
+var server = app.listen(8083, "127.0.0.1", function() {
   var host = server.address().address;
   var port = server.address().port;
   console.log("App listening at http://%s:%s", host, port);
@@ -39,5 +39,16 @@ var server = app.listen(8082, "127.0.0.1", function() {
 //   Role.create({
 //     id: 3,
 //     name: "PM"
+//   });
+// }
+
+// function book() {
+//   Book.create({
+//     title: "Bobo",
+//     author: "Tatang S",
+//     published_date: "2019-02-20",
+//     pages: "50",
+//     language: "sunda",
+//     published_id: "123"
 //   });
 // }

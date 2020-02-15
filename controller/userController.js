@@ -1,7 +1,12 @@
 const db = require("../app/db.js");
 const User = db.user;
 const Role = db.role;
+const Book = db.book;
 const asyncMiddleware = require("express-async-handler");
+const express = require("express");
+
+var app = express();
+app.use(express.json());
 exports.users = asyncMiddleware(async (req, res) => {
   const user = await User.findAll({
     attributes: ["name", "username", "email"],
@@ -20,6 +25,7 @@ exports.users = asyncMiddleware(async (req, res) => {
     user: user
   });
 });
+
 exports.userContent = asyncMiddleware(async (req, res) => {
   const user = await User.findOne({
     where: { id: req.userId },
@@ -42,7 +48,6 @@ exports.userContent = asyncMiddleware(async (req, res) => {
 exports.adminBoard = asyncMiddleware(async (req, res) => {
   const user = await User.findOne({
     where: { id: req.userId },
-
     attributes: ["name", "username", "email"],
     include: [
       {
