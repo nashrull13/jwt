@@ -7,6 +7,7 @@ const asyncMiddleware = require("express-async-handler");
 const Op = db.Sequelize.Op;
 var jwt = require("jsonwebtoken");
 var bcrypt = require("bcryptjs");
+
 exports.signup = asyncMiddleware(async (req, res) => {
   // Save User to Database
   console.log("Processing func -> SignUp");
@@ -30,7 +31,7 @@ exports.signup = asyncMiddleware(async (req, res) => {
 });
 
 exports.tambahbuku = asyncMiddleware(async (req, res) => {
-  // Save User to Database
+  // Save Books to Database
   console.log("Processing func -> SignUp");
   const book = await Book.create({
     title: req.body.title,
@@ -48,7 +49,7 @@ exports.tambahbuku = asyncMiddleware(async (req, res) => {
     }
   });
   await book.setUsers(users);
-  // await user.setRoles(roles);
+
   res.status(201).send({
     status: "Book registered successfully!"
   });

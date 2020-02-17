@@ -3,6 +3,7 @@ const Book = db.book;
 const User = db.user;
 const asyncMiddleware = require("express-async-handler");
 
+//Insert Book
 exports.tambahBuku = asyncMiddleware(async (req, res) => {
   console.log("Processing func -> Tambah Buku");
   const {
@@ -30,7 +31,7 @@ exports.tambahBuku = asyncMiddleware(async (req, res) => {
       })
     )
     .catch(error =>
-      res.json({
+      res.status(401).json({
         error: true,
         data: [],
         error: error
@@ -38,6 +39,7 @@ exports.tambahBuku = asyncMiddleware(async (req, res) => {
     );
 });
 
+//Update Book
 exports.rubahBuku = asyncMiddleware(async (req, res) => {
   await Book.update(
     {
@@ -75,6 +77,7 @@ exports.tampilBuku = asyncMiddleware(async (req, res) => {
   });
 });
 
+//show books
 exports.tampilsemuaBuku = asyncMiddleware(async (req, res) => {
   const book = await Book.findAll({
     attributes: [
@@ -92,78 +95,10 @@ exports.tampilsemuaBuku = asyncMiddleware(async (req, res) => {
   });
 });
 
+//delete book
 exports.hapusBuku = asyncMiddleware(async (req, res) => {
   await Book.destroy({ where: { id: req.params.id } });
   res.status(201).send({
     status: "Buku berhasil di delete"
-  });
-});
-
-exports.buatOrder = asyncMiddleware(async (req, res) => {
-  const user = await User.findOne({
-    where: { id: req.userId }
-  });
-  const books = await Book.findOne({
-    where: { id: req.params.id }
-  });
-  await user.addBooks(books);
-  res.status(201).send({
-    user: user,
-    books: books,
-    status: "order berhasil!"
-  });
-});
-
-exports.liatsemuaOrder = asyncMiddleware(async (req, res) => {
-  const user = await User.findAll({
-    attributes: ["name", "username", "email"],
-    include: [
-      {
-        model: Book,
-        attributes: [
-          "title",
-          "author",
-          "pages",
-          "published_date",
-          "language",
-          "publisher_id"
-        ],
-        through: {
-          attributes: ["userId", "bookId"]
-        }
-      }
-    ]
-  });
-  res.status(200).json({
-    description: "All Order",
-    user: user
-  });
-});
-
-exports.liatOrder = asyncMiddleware(async (req, res) => {
-  const user = await User.findOne({
-    where: { id: req.userId },
-    attributes: ["name", "username", "email"],
-    include: [
-      {
-        model: Book,
-        attributes: [
-          "title",
-          "author",
-          "pages",
-          "published_date",
-          "language",
-          "publisher_id"
-        ],
-        through: {
-          attributes: ["userId", "bookId"]
-        }
-      }
-    ]
-  });
-  console.log("tes eror bisa kali");
-  res.status(200).json({
-    description: "User order page",
-    user: user
   });
 });
